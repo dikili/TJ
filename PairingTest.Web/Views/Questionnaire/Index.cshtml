@@ -1,0 +1,46 @@
+﻿@model PairingTest.Web.ViewModels.QuestionnaireViewModel
+
+<html>
+    <head>
+        <title>@Model.QuestionnaireTitle</title>
+    </head>
+    <body>
+  <div class="question-header">
+    <p class="lead">Best of luck...</p>
+  </div>
+@using (Html.BeginForm("ProcessSurvey", "Questionnaire", FormMethod.Post))
+{
+    @Html.HiddenFor(p=>p.QuestionnaireTitle)
+   
+    <div class="questions">
+        @if (Model.Questions != null)
+        {
+            <div class="questionsx row">
+                <div class="title span10">
+                    Question Board
+                </div>
+                <div class="date span2">
+                    @DateTime.Now.ToString("D")
+                </div>
+            </div>
+            foreach (var question in Model.Questions)
+            {
+                int index = Model.Questions.IndexOf(question);
+                @Html.HiddenFor(q => q.Questions[index].QuestionText);
+                <div class="question row">
+                    <div class="contents span12">
+                        @(index+1)) @question.QuestionText
+                    </div>
+                    <div class="replies span12">
+                        @Html.EditorFor(x=>x.Questions[index].QuestionAnswer)
+                    </div>
+                </div>
+            }
+        }
+
+        <input type="submit" id="submitBtn" class="btn btn-primary answer-button" value="Submit Survey"/>
+    </div>
+}
+    </body>
+</html>
+
